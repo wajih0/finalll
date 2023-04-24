@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Controller;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -40,5 +42,19 @@ class LivraisonUserController extends AbstractController
       }
   return $this->renderForm("livraison_user/index.html.twig",
         array("f"=>$form));
+  }   
+
+
+  #[Route('/mailer', name: 'app_ajout')]
+  public function mail(ManagerRegistry $doctrine, Request $request,MailerInterface $mailer)
+  {
+      
+    $email = (new Email())
+    ->from('ahmedwajih.benhmida@esprit.tn')
+    ->to('wajihbenhmida5@gmail.com')
+    ->subject('Test email')
+    ->text('This is a test email');
+
+     return $mailer->send($email);
   }   
 }
